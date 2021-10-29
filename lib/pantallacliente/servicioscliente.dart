@@ -65,8 +65,8 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
                   color: Colors.orange
                 ),),
             trailing: Container(
-              width: 200,
-              height: 300,
+              width: 150,
+              height: 150,
               decoration: BoxDecoration(
               color: Colors.green,
               borderRadius: BorderRadius.circular(20),
@@ -100,7 +100,57 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            FutureBuilder(
+            Refrescar(idusuario: idusuario, servicios: servicios);
+          });
+        },
+        tooltip: 'Refrescar',
+        child: Icon(Icons.refresh),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+  void confirmaeliminar(context, ideliminar) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Text('¿Desea eliminar la solicitud?'),
+        actions: <Widget>[
+          TextButton(
+            child: Text(
+              'Cancelar',
+              style: TextStyle(color: Colors.blueAccent),
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+          TextButton(
+            child: Text(
+              'Eliminar',
+              style: TextStyle(color: Colors.red),
+            ),
+            onPressed: () {
+               setState(() {
+                  eliminarServicio(ideliminar);
+                });
+              Navigator.pop(context);
+              Refrescar(idusuario: idusuario, servicios: servicios);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+}
+
+class Refrescar extends StatelessWidget {
+  const Refrescar({this.idusuario,this.servicios}) ;
+
+  final  idusuario;
+  final List<Servicio> servicios;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
     future: listarServiciosClientePost(http
         .Client(),idusuario), //En esta línea colocamos el el objeto Future que estará esperando una respuesta
     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -114,87 +164,49 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
           // print(snapshot.data);
           return snapshot.data != null
-              ? ListView.builder(
+      ? ListView.builder(
         itemCount: snapshot.data.length == 0 ? 0 : snapshot.data.length,
         itemBuilder: (context, posicion) {
           return ListTile(
-            
-            leading: CircleAvatar(
-                  backgroundImage: AssetImage("assets/icons/icono.png"),
-                ),
-            title: Text(snapshot.data[posicion].nombre),
-            subtitle: Text(snapshot.data[posicion].direccion,
-                style: TextStyle(
-                  color: Colors.orange,
-                ),),
-            trailing: Container(
-              width: 200,
-              height: 300,
-              decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(20),
-              ),
-              padding: EdgeInsets.all(10),
-              alignment: Alignment.center,
-              child: Text(
-                servicios[posicion].fecha + ' - ' + servicios[posicion].estado,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
+    
+    leading: CircleAvatar(
+          backgroundImage: AssetImage("assets/icons/icono.png"),
+        ),
+    title: Text(snapshot.data[posicion].nombre),
+    subtitle: Text(snapshot.data[posicion].direccion,
+        style: TextStyle(
+          color: Colors.orange,
+        ),),
+    trailing: Container(
+      width: 150,
+      height: 150,
+      decoration: BoxDecoration(
+      color: Colors.green,
+      borderRadius: BorderRadius.circular(20),
+      ),
+      padding: EdgeInsets.all(10),
+      alignment: Alignment.center,
+      child: Text(
+        servicios[posicion].fecha + ' - ' + servicios[posicion].estado,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    ),
           );
         })
-              : Text('Sin Datos');
+      : Text('Sin Datos');
 
         /*
-             Text(
-              snapshot.data != null ?'ID: ${snapshot.data['id']}\nTitle: ${snapshot.data['title']}' : 'Vuelve a intentar', 
-              style: TextStyle(color: Colors.black, fontSize: 20),);
-            */
+     Text(
+      snapshot.data != null ?'ID: ${snapshot.data['id']}\nTitle: ${snapshot.data['title']}' : 'Vuelve a intentar', 
+      style: TextStyle(color: Colors.black, fontSize: 20),);
+    */
 
         default:
           return Text('Presiona el boton para recargar');
       }
     },
   );
-          });
-        },
-        tooltip: 'Refrescar',
-        child: Icon(Icons.refresh),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
   }
-  void confirmaeliminar(context, ideliminar) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Text('Realmente Desea Cancelar La Solicitud?'),
-        actions: <Widget>[
-          ElevatedButton(
-             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-            ),
-            child: Icon(Icons.cancel),
-            onPressed: () => Navigator.pop(context),
-          ),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-            ),
-            child: Icon(Icons.check_circle),
-            onPressed: () {
-              setState(() {
-                    eliminarServicio(ideliminar);
-                  });
-              
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
 }

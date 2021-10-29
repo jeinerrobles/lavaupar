@@ -9,13 +9,13 @@ class Usuario {
   
 
   Usuario({
-    required this.idusuario,
-    required this.tipousuario,
-    required this.nombre,
-    required this.apellido,
-    required this.direccion,
-    required this.telefono,
-    required this.contrasena,
+     this.idusuario,
+     this.tipousuario,
+     this.nombre,
+     this.apellido,
+     this.direccion,
+     this.telefono,
+     this.contrasena,
   });
 
   factory Usuario.fromJson(Map<String, dynamic> json) {

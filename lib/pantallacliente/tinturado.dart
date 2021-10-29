@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lavaupar/peticiones/clienteshttp.dart';
 import 'package:lavaupar/widgets/constants.dart';
+import 'package:lavaupar/widgets/messagewidget.dart';
+
 
 class Tinturado extends StatefulWidget {
+  final String idusuario;
+  final String direccion;
+
+  Tinturado(this.idusuario,this.direccion);
   @override
   _TinturadoState createState() => _TinturadoState();
 }
@@ -12,15 +18,23 @@ class _TinturadoState extends State<Tinturado> {
   var dateInput;
   var anionacimiento;
   var mesnacimiento;
-  TextEditingController controldireccion = TextEditingController();
+  var idusuario;
+
+  TextEditingController controldireccion;
   TextEditingController controlfecha = TextEditingController();
+  @override
+  void initState() {
+    controldireccion = TextEditingController(text: widget.direccion);
+    idusuario = widget.idusuario;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Solicitar Servicio"),
+        title: Text("Solicitar Tinturado"),
         backgroundColor: fondoazuloscuro,
       ),
       body: Stack(
@@ -28,10 +42,9 @@ class _TinturadoState extends State<Tinturado> {
           Container(
             height: size.height * .45,
             decoration: BoxDecoration(
-              color: kShadowColor,
+              color: fondoazuloscuro,
               image: DecorationImage(
-                image: AssetImage("assets/images/meditation_bg.png"),
-                fit: BoxFit.fitWidth,
+                image: AssetImage("assets/icons/tintura.png"),
               ),
             ),
           ),
@@ -45,38 +58,20 @@ class _TinturadoState extends State<Tinturado> {
                     SizedBox(
                       height: size.height * 0.05,
                     ),
+                    
+                    SizedBox(height: 30),
                     Text(
-                      "Tinturado",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4!
-                          .copyWith(fontWeight: FontWeight.w900),
-                    ),
-                    SizedBox(height: 50),
-                    Text(
-                      "Servicio de tinturado",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      "Servicio de tinturado y limpieza impecable.",
+                      style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
                     ),
                     SizedBox(height: 130),
                     Column(children: [
                       SizedBox(
-                        height: 10,
+                        height: 80,
                       ),
 
-                      Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: TextField(
-                          controller: controldireccion,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              filled: true,
-                              labelText: 'Dirección',
-                              suffix: GestureDetector(
-                                child: Icon(Icons.close),
-                              )),
-                        ),
-                      ),
-
+                      ContainerTextos('Dirección y barrio',controldireccion,'assets/icons/direccion.png',TextInputType.text, true),
+              
                       SizedBox(
                         height: 10,
                       ),
@@ -101,30 +96,26 @@ class _TinturadoState extends State<Tinturado> {
                           )),
 
                       //controlador fecha
-                      Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: TextField(
-                          enabled: false,
-                          controller: controlfecha,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            labelText: 'Fecha recolección',
-                          ),
-                        ),
-                      ),
+                      ContainerTextos('Fecha de recolección',controlfecha,'assets/icons/fecharecoleccion.png',TextInputType.text, false),
 
                       ElevatedButton(
                         child: Text("Agendar servicio"),
                         onPressed: () {
-                          adicionarServicio(
-                              'TINTURADO',
-                              controldireccion.text,
-                              controlfecha.text,
-                              '1003242749',
-                              'pendiente');
-
-                          Navigator.of(context).pop();
+                          if (controldireccion.text.isNotEmpty &&
+                              controlfecha.text.isNotEmpty) {
+                            adicionarServicio(
+                                'TINTURADO',
+                                controldireccion.text,
+                                controlfecha.text,
+                                idusuario,
+                                'Pendiente');
+                            limpiarDatos();
+                            MessageWidget.confirmacion(context,
+                                "Se realizó la solicitud correctamente", 3);
+                          } else {
+                            MessageWidget.advertencia(context,
+                                "Debe completar toda la información", 3);
+                          }
                         },
                       ),
                     ]),
@@ -157,5 +148,60 @@ class _TinturadoState extends State<Tinturado> {
         });
       }
     });
+  }
+
+  void limpiarDatos(){
+    controlfecha.text = '';
+  }
+}
+
+class ContainerTextos extends StatelessWidget {
+final  texto;
+final  controlador;
+final  icono;
+final  teclado;
+final  campo;
+
+ContainerTextos(this.texto,this.controlador, this.icono, this.teclado, this.campo);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            this.texto,
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13, color: Colors.black),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            enabled: this.campo,
+            controller: this.controlador,
+            style: (TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w400
+            )),
+            //keyboardType: TextInputType.emailAddress,
+            keyboardType: this.teclado,
+            obscureText: false,
+            cursorColor: Colors.black,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              filled: true,
+              prefixIcon: Image.asset(this.icono),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            ),
+          ),
+           
+          ),
+        ],
+      ),
+    );
   }
 }

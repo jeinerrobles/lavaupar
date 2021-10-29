@@ -8,12 +8,12 @@ class Servicio {
   
 
   Servicio({
-    required this.idservicio,
-    required this.nombre,
-    required this.direccion,
-    required this.fecha,
-    required this.cliente,
-    required this.estado,
+     this.idservicio,
+     this.nombre,
+     this.direccion,
+     this.fecha,
+     this.cliente,
+     this.estado,
   });
 
   factory Servicio.fromJson(Map<String, dynamic> json) {

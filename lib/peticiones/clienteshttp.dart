@@ -48,6 +48,46 @@ void adicionarServicio(
   });
 }
 
+void adicionarUsuario(
+    String idusuario,
+    String tipousuario,
+    String nombre,
+    String apellido,
+    String direccion,
+    String telefono,
+    String contrasena) async {
+  var url = Uri.parse(
+      "https://pmproyecto.000webhostapp.com/proyectolavauparapi/adicionarusuario.php");
+
+  await http.post(url, body: {
+    'idusuario': idusuario,
+    'tipousuario': tipousuario,
+    'nombre': nombre,
+    'apellido': apellido,
+    'direccion': direccion,
+    'telefono': telefono,
+    'contrasena': contrasena,
+  });
+}
+
+void editarUsuario(
+    String idusuario,
+    String nombre,
+    String apellido,
+    String direccion,
+    String telefono) async {
+  var url = Uri.parse(
+      "https://pmproyecto.000webhostapp.com/proyectolavauparapi/modificarusuario.php");
+
+  await http.post(url, body: {
+    'idusuario': idusuario,
+    'nombre': nombre,
+    'apellido': apellido,
+    'direccion': direccion,
+    'telefono': telefono,
+  });
+}
+
 void editarServicio(
     String idservicio,
     String nombre,
