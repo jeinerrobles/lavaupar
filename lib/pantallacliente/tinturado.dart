@@ -42,7 +42,7 @@ class _TinturadoState extends State<Tinturado> {
           Container(
             height: size.height * .45,
             decoration: BoxDecoration(
-              color: fondoazuloscuro,
+              color: Colors.red[100],
               image: DecorationImage(
                 image: AssetImage("assets/icons/tintura.png"),
               ),
@@ -67,7 +67,7 @@ class _TinturadoState extends State<Tinturado> {
                     SizedBox(height: 130),
                     Column(children: [
                       SizedBox(
-                        height: 80,
+                        height: 95,
                       ),
 
                       ContainerTextos('Dirección y barrio',controldireccion,'assets/icons/direccion.png',TextInputType.text, true),

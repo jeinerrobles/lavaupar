@@ -7,11 +7,11 @@ import 'package:lavaupar/widgets/messagewidget.dart';
 class MisDatos extends StatefulWidget {
   final String idusuario;
   final String nombre;
-  final String apellido;
+  final String email;
   final String direccion;
   final String telefono;
 
-  MisDatos(this.idusuario, this.nombre, this.apellido, this.direccion, this.telefono);
+  MisDatos(this.idusuario, this.nombre, this.email, this.direccion, this.telefono);
   @override
   _MisDatosState createState() => _MisDatosState();
 }
@@ -20,7 +20,7 @@ class _MisDatosState extends State<MisDatos> {
 
    TextEditingController idusuario;
    TextEditingController nombre;
-   TextEditingController apellido;
+   TextEditingController email;
    TextEditingController direccion;
    TextEditingController telefono;
 
@@ -30,7 +30,7 @@ class _MisDatosState extends State<MisDatos> {
 
     idusuario = TextEditingController(text:widget.idusuario);
     nombre = TextEditingController(text:widget.nombre);
-    apellido = TextEditingController(text:widget.apellido);
+    email = TextEditingController(text:widget.email);
     direccion = TextEditingController(text:widget.direccion);
     telefono = TextEditingController(text:widget.telefono);
 
@@ -56,14 +56,14 @@ class _MisDatosState extends State<MisDatos> {
               SizedBox(
                 height: 20,
               ),
-              Text('     La identificación no se permite cambiar',
+              Text('     La identificación y correo no se permiten cambiar',
                     style: TextStyle(
                         color: Colors.grey[600],
                         fontWeight: FontWeight.w400
                     ),),
               ContainerTextos('Identificación',idusuario,'assets/icons/id.png',TextInputType.number,false),
+              ContainerTextos('Correo',email,'assets/icons/icon_email.png',TextInputType.text,false),
               ContainerTextos('Nombre',nombre,'assets/icons/nombre.png',TextInputType.text,true),
-              ContainerTextos('Apellido',apellido,'assets/icons/nombre.png',TextInputType.text,true),
               ContainerTextos('Dirección y barrio',direccion,'assets/icons/direccion.png',TextInputType.text,true),
               ContainerTextos('Telefono',telefono,'assets/icons/telefono.png',TextInputType.number,true),
               
@@ -83,14 +83,13 @@ class _MisDatosState extends State<MisDatos> {
                     onPressed: () {
                       if (idusuario.text.isNotEmpty &&
                           nombre.text.isNotEmpty &&
-                          apellido.text.isNotEmpty &&
+                          email.text.isNotEmpty &&
                           direccion.text.isNotEmpty &&
                           telefono.text.isNotEmpty) {
                         editarUsuario(idusuario.text, nombre.text,
-                            apellido.text, direccion.text, telefono.text);
+                            email.text, direccion.text, telefono.text);
                             MessageWidget.confirmacion(
                             context, "Se guardaron los datos correctamente", 3);
-                        //Navigator.of(context).pop();
                       } else {
                         MessageWidget.advertencia(
                             context, "Hay campos vacios", 3);
@@ -104,8 +103,6 @@ class _MisDatosState extends State<MisDatos> {
             ],
           ),
         ),
-      
-       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
@@ -154,9 +151,6 @@ ContainerTextos(this.texto,this.controlador, this.icono, this.teclado, this.enab
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
             ),
           ),
-           /* onChanged: (value) {
-              email = value;
-            },*/
           ),
         ],
       ),

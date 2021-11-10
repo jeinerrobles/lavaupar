@@ -4,7 +4,6 @@ import 'package:lavaupar/pantallaadmin/editarservicioenproceso.dart';
 import 'package:lavaupar/peticiones/adminhttp.dart';
 import 'package:lavaupar/widgets/constants.dart';
 
-//import 'adicionar.dart';
 
 class ServiciosEnProceso extends StatefulWidget {
   @override
@@ -37,7 +36,6 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
 
         case ConnectionState.done:
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-          // print(snapshot.data);
           return snapshot.data != null
               ? ListView.builder(
         itemCount: snapshot.data.length == 0 ? 0 : snapshot.data.length,
@@ -100,7 +98,7 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
         },
         tooltip: 'Refrescar',
         child: Icon(Icons.refresh),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ), 
     );
   }
 }
@@ -123,7 +121,6 @@ class Refrescar extends StatelessWidget {
 
         case ConnectionState.done:
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-          // print(snapshot.data);
           return snapshot.data != null
       ? ListView.builder(
         itemCount: snapshot.data.length == 0 ? 0 : snapshot.data.length,
@@ -157,12 +154,6 @@ class Refrescar extends StatelessWidget {
           );
         })
       : Text('Sin Datos');
-
-        /*
-     Text(
-      snapshot.data != null ?'ID: ${snapshot.data['id']}\nTitle: ${snapshot.data['title']}' : 'Vuelve a intentar', 
-      style: TextStyle(color: Colors.black, fontSize: 20),);
-    */
 
         default:
           return Text('Presiona el boton para recargar');

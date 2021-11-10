@@ -5,7 +5,7 @@ class Servicio {
   final String fecha;
   final String cliente;
   final String estado;
-  
+   
 
   Servicio({
      this.idservicio,

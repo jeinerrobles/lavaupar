@@ -52,7 +52,7 @@ void adicionarUsuario(
     String idusuario,
     String tipousuario,
     String nombre,
-    String apellido,
+    String email,
     String direccion,
     String telefono,
     String contrasena) async {
@@ -63,7 +63,7 @@ void adicionarUsuario(
     'idusuario': idusuario,
     'tipousuario': tipousuario,
     'nombre': nombre,
-    'apellido': apellido,
+    'email': email,
     'direccion': direccion,
     'telefono': telefono,
     'contrasena': contrasena,
@@ -73,7 +73,7 @@ void adicionarUsuario(
 void editarUsuario(
     String idusuario,
     String nombre,
-    String apellido,
+    String email,
     String direccion,
     String telefono) async {
   var url = Uri.parse(
@@ -82,7 +82,7 @@ void editarUsuario(
   await http.post(url, body: {
     'idusuario': idusuario,
     'nombre': nombre,
-    'apellido': apellido,
+    'email': email,
     'direccion': direccion,
     'telefono': telefono,
   });

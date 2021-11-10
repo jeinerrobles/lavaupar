@@ -9,16 +9,11 @@ import '../main.dart';
 
 
 class PrincipalAdmin extends StatelessWidget {
-  // This widget is the root of your application.
-  final String idusuario;
-  final String tipousuario;
-  final String nombre;
-  final String apellido;
-  final String direccion;
-  final String telefono;
-  final String contrasena;
 
-  PrincipalAdmin(this.idusuario, this.tipousuario, this.nombre, this.apellido, this.direccion, this.telefono, this.contrasena);
+  final String idusuario;
+
+
+  PrincipalAdmin(this.idusuario);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,31 +24,25 @@ class PrincipalAdmin extends StatelessWidget {
         scaffoldBackgroundColor: fondoblanco,
         textTheme: Theme.of(context).textTheme.apply(displayColor: fondoblanco),
       ),
-      home: HomeScreen(this.idusuario, this.tipousuario, this.nombre, this.apellido, this.direccion, this.telefono, this.contrasena),
+      home: HomeScreen( this.idusuario),
     );
   }
 }
 
 class HomeScreen extends StatelessWidget {
-  final String idusuario;
-  final String tipousuario;
-  final String nombre;
-  final String apellido;
-  final String direccion;
-  final String telefono;
-  final String contrasena;
 
-  HomeScreen(this.idusuario, this.tipousuario, this.nombre, this.apellido, this.direccion, this.telefono, this.contrasena);
+  final String idusuario;
+
+
+  HomeScreen(this.idusuario);
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context)
-        .size; //this gonna give us total height and with of our device
+        .size; 
     return Scaffold(
-      //bottomNavigationBar: BottomNavBar(),
       body: Stack(
         children: <Widget>[
           Container(
-            // Here the height of the container is 45% of our total height
             height: size.height * .45,
             decoration: BoxDecoration(
               color: fondoazuloscuro,
@@ -89,7 +78,6 @@ class HomeScreen extends StatelessWidget {
                         .headline4
                         .copyWith(fontWeight: FontWeight.w900),
                   ),
-                  //SearchBar(),
                   SizedBox(
                     height: 70,
                   ),
@@ -124,6 +112,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => MyApp()));
+                     print('Sesión cerrada');
               },
               backgroundColor: Colors.red,
               tooltip: 'Salir',

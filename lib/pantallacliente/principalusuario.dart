@@ -11,7 +11,6 @@ import '../main.dart';
 
 
 class MyAppp extends StatelessWidget {
-  // This widget is the root of your application.
   final String idusuario;
   MyAppp(this.idusuario);
   @override
@@ -42,13 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context)
-        .size; //this gonna give us total height and with of our device
+        .size; 
     return Scaffold(
-      //bottomNavigationBar: BottomNavBar(),
       body: Stack(
         children: <Widget>[
           Container(
-            // Here the height of the container is 45% of our total height
             height: size.height * .45,
             decoration: BoxDecoration(
               color: fondoazuloscuro,
@@ -84,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         .headline4
                         .copyWith(fontWeight: FontWeight.w900),
                   ),
-                  //SearchBar(),
                   SizedBox(
                     height: 70,
                   ),
@@ -145,6 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => MyApp()));
+                    print('Sesión cerrada');
               },
               backgroundColor: Colors.red,
               tooltip: 'Salir',
@@ -166,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) =>
-                MisDatos(widget.idusuario, datos[0]['nombre'], datos[0]['apellido'],
+                MisDatos(widget.idusuario, datos[0]['nombre'], datos[0]['email'],
                  datos[0]['direccion'], datos[0]['telefono'])));
   }
 }

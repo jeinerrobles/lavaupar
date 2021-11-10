@@ -1,33 +1,43 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:lavaupar/pantallacliente/principalusuario.dart';
 import 'package:lavaupar/peticiones/clienteshttp.dart';
 import 'package:lavaupar/widgets/messagewidget.dart';
 import 'package:http/http.dart' as http;
 
 class CreateAccount extends StatefulWidget {
+  final String email;
+  final String contrasena;
+  final String nombre;
+
+  CreateAccount(this.nombre, this.email, this.contrasena);
   @override
   _CreateAccountState createState() => _CreateAccountState();
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   bool showSpinner = false;
- 
-
-  @override
-  Widget build(BuildContext context) {
+ var usuarior;
     TextEditingController idusuario = TextEditingController();
     TextEditingController nombre = TextEditingController();
-    TextEditingController apellido = TextEditingController();
     TextEditingController direccion = TextEditingController();
     TextEditingController telefono = TextEditingController();
-    TextEditingController contrasena = TextEditingController();
+
+@override
+  void initState() {
+    nombre = TextEditingController(text:widget.nombre);
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           elevation: 0,
-            leading: _goBackButton(context),
           backgroundColor: Color(0xff251F34),
         ),
         backgroundColor: Color(0xff251F34),
@@ -36,95 +46,55 @@ class _CreateAccountState extends State<CreateAccount> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-                child: Text('Crear Cuenta',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 25
-                  ),),
-              ),
-              Text('     Tu identificación sera el usuario al ingresar',
-                    style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w400
-                    ),),
-              ContainerTextos('Identificación',idusuario,'assets/icons/id.png',TextInputType.number),
-              ContainerTextos('Nombre',nombre,'assets/icons/nombre.png',TextInputType.text),
-              ContainerTextos('Apellido',apellido,'assets/icons/nombre.png',TextInputType.text),
-              ContainerTextos('Dirección y barrio',direccion,'assets/icons/direccion.png',TextInputType.text),
-              ContainerTextos('Telefono',telefono,'assets/icons/telefono.png',TextInputType.number),
-              ContainerTextos('Contraseña',contrasena,'assets/icons/contrasena.png',TextInputType.text),
-              
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: OutlinedButton(
+              ContainerTextos('Nombre y apellido*',nombre,'assets/icons/nombre.png',TextInputType.text),
+              ContainerTextos('Identificación*',idusuario,'assets/icons/id.png',TextInputType.number),
+              ContainerTextos('Dirección y barrio*',direccion,'assets/icons/direccion.png',TextInputType.text),
+              ContainerTextos('Telefono*',telefono,'assets/icons/telefono.png',TextInputType.number),
+
+            
+            ],
+          ),
+        ),
+        persistentFooterButtons: [
+        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       primary: Colors.white,
-                      backgroundColor: Colors.teal,
+                      backgroundColor: Colors.blue,
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                     ),
-                    child: Text('CREAR CUENTA'),
+                    child: Text('Continuar'),
                     onPressed: () {
                       if (idusuario.text.isNotEmpty &&
                           nombre.text.isNotEmpty &&
-                          apellido.text.isNotEmpty &&
                           direccion.text.isNotEmpty &&
-                          telefono.text.isNotEmpty &&
-                          contrasena.text.isNotEmpty) {
-                        consultarUsuario(idusuario.text, 'Cliente', nombre.text, apellido.text,
-                         direccion.text, telefono.text, contrasena.text);
+                          telefono.text.isNotEmpty) {
+                         consultarUsuario(idusuario.text, 'Cliente', nombre.text, widget.email,
+                         direccion.text, telefono.text, widget.contrasena);
                       } else {
                         MessageWidget.advertencia(
                             context, "Debe llenar todos los campos", 3);
                       }
                     }),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Ya tienes una cuenta?',
-                    style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w400
-                    ),),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('Ingresar',
-                        style: TextStyle(
-                          color: Color(0xff14DAE2),)
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
+         
+        ]),
+      ],
       );
   }
-  void consultarUsuario(idusuario,tipousuario,nombre,apellido,direccion,telefono,contrasena) async {
+  void consultarUsuario(idusuario,tipousuario,nombre,email,direccion,telefono,contrasena) async {
     var url = Uri.parse(
         'https://pmproyecto.000webhostapp.com/proyectolavauparapi/verificarnuevousuario.php');
     var response = await http.post(url, body: {'idusuario': idusuario});
 
     var datos = jsonDecode(response.body);
-
      if (datos != 0) {
       MessageWidget.error(context, "Ya existe un usuario con la identificación"+' '+idusuario, 3);
       
     } else {
-      
-      adicionarUsuario(idusuario, tipousuario, nombre, apellido, direccion, telefono, contrasena);
-      MessageWidget.confirmacion(context, "Usuario creado correctamente", 3);
+      adicionarUsuario(idusuario, tipousuario, nombre, email, direccion, telefono, contrasena);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => MyAppp(idusuario)));
     }
   }
 }
@@ -171,9 +141,6 @@ ContainerTextos(this.texto,this.controlador, this.icono, this.teclado);
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
             ),
           ),
-           /* onChanged: (value) {
-              email = value;
-            },*/
           ),
         ],
       ),
@@ -181,10 +148,4 @@ ContainerTextos(this.texto,this.controlador, this.icono, this.teclado);
   }
 }
 
-Widget _goBackButton(BuildContext context) {
-  return IconButton(
-      icon: Icon(Icons.arrow_back, color: Colors.grey[350]),
-      onPressed: () {
-        Navigator.of(context).pop(true);
-      });
-}
+

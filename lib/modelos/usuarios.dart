@@ -2,17 +2,17 @@ class Usuario {
   final String idusuario;
   final String tipousuario;
   final String nombre;
-  final String apellido;
+  final String email;
   final String direccion;
   final String telefono;
   final String contrasena;
-  
+   
 
   Usuario({
      this.idusuario,
      this.tipousuario,
      this.nombre,
-     this.apellido,
+     this.email,
      this.direccion,
      this.telefono,
      this.contrasena,
@@ -23,7 +23,7 @@ class Usuario {
       idusuario: json['idusuario'],
       tipousuario: json['tipousuario'],
       nombre: json['nombre'],
-      apellido: json['apellido'],
+      email: json['email'],
       direccion: json['direccion'],
       telefono: json['telefono'],
       contrasena: json['contrasena'],

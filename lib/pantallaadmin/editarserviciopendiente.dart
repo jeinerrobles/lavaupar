@@ -33,7 +33,6 @@ class _EditarServicioPendienteState extends State<EditarServicioPendiente> {
     direccion = TextEditingController(text:widget.direccion);
     fecha = TextEditingController(text:widget.fecha);
     cliente = TextEditingController(text:widget.cliente);
-    //estado = TextEditingController(text:widget.estado);
 
     super.initState();
   }
@@ -131,8 +130,6 @@ class _EditarServicioPendienteState extends State<EditarServicioPendiente> {
             ],
           ),
         ),
-      
-       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
   void changedDropDownItem(selectedCity) {
@@ -186,9 +183,6 @@ ContainerTextos(this.texto,this.controlador, this.icono, this.teclado, this.enab
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
             ),
           ),
-           /* onChanged: (value) {
-              email = value;
-            },*/
           ),
         ],
       ),

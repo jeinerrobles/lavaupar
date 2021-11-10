@@ -130,8 +130,6 @@ class _EditarServicioEnProcesoState extends State<EditarServicioEnProceso> {
             ],
           ),
         ),
-      
-       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
   void changedDropDownItem(selectedCity) {
@@ -185,9 +183,6 @@ ContainerTextos(this.texto,this.controlador, this.icono, this.teclado, this.enab
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
             ),
           ),
-           /* onChanged: (value) {
-              email = value;
-            },*/
           ),
         ],
       ),

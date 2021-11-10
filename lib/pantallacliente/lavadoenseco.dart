@@ -42,7 +42,7 @@ class _LavadoEnSecoState extends State<LavadoEnSeco> {
           Container(
             height: size.height * .45,
             decoration: BoxDecoration(
-              color: fondoazuloscuro,
+              color: Colors.yellow[100],
               image: DecorationImage(
                 image: AssetImage("assets/icons/seco.png"),
               ),
@@ -58,7 +58,7 @@ class _LavadoEnSecoState extends State<LavadoEnSeco> {
                     SizedBox(
                       height: size.height * 0.05,
                     ),
-                    
+                     
                     SizedBox(height: 30),
                     Text(
                       "Servicio de lavado en seco + planchado al vapor.",
@@ -67,7 +67,7 @@ class _LavadoEnSecoState extends State<LavadoEnSeco> {
                     SizedBox(height: 130),
                     Column(children: [
                       SizedBox(
-                        height: 85,
+                        height: 95,
                       ),
 
                       ContainerTextos('Dirección y barrio',controldireccion,'assets/icons/direccion.png',TextInputType.text, true),
@@ -190,7 +190,6 @@ ContainerTextos(this.texto,this.controlador, this.icono, this.teclado, this.camp
             cursorColor: Colors.black,
             decoration: InputDecoration(
               border: InputBorder.none,
-              //fillColor: Color(0xfff3B324E),
               filled: true,
               prefixIcon: Image.asset(this.icono),
               focusedBorder: OutlineInputBorder(

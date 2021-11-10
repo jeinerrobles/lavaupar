@@ -42,7 +42,7 @@ class _LavadoEnFrioState extends State<LavadoEnFrio> {
           Container(
             height: size.height * .45,
             decoration: BoxDecoration(
-              color: fondoazuloscuro,
+              color: Colors.indigo[100],
               image: DecorationImage(
                 image: AssetImage("assets/icons/enfrio.png"),
               ),
@@ -190,7 +190,6 @@ ContainerTextos(this.texto,this.controlador, this.icono, this.teclado, this.camp
             cursorColor: Colors.black,
             decoration: InputDecoration(
               border: InputBorder.none,
-              //fillColor: Color(0xfff3B324E),
               filled: true,
               prefixIcon: Image.asset(this.icono),
               focusedBorder: OutlineInputBorder(
@@ -198,9 +197,6 @@ ContainerTextos(this.texto,this.controlador, this.icono, this.teclado, this.camp
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
             ),
           ),
-           /* onChanged: (value) {
-              email = value;
-            },*/
           ),
         ],
       ),

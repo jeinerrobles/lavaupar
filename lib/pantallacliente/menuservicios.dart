@@ -23,102 +23,131 @@ class _MenuServiciosState extends State<MenuServicios> {
         title: Text('Servicios'),
         backgroundColor: fondoazuloscuro,
       ),
-        body: ListView(
+        body: Stack(
           children: <Widget>[
-            lavadoEnFrio(),
-            lavadoEnSeco(),
-            tinturado(),
+            SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                   SizedBox(
+                      height: 15,
+                    ),
+                  Text(
+                      "Seleccione el servicio que desea solicitar y el dia, nosotros nos encargamos del resto!",
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                 SizedBox(
+                      height: 40,
+                    ),
+                     Container(
+                        width: 150,
+                        alignment: Alignment.center,
+                      child: Card(
+                          margin: EdgeInsets.only(),
+                          elevation: 2.0,
+                          color: fondoblanco,
+                          child: new InkWell(
+                            highlightColor: Colors.white.withAlpha(30),
+                            splashColor: Colors.white.withAlpha(20),
+                            child: new Column(children: <Widget>[
+                              SizedBox(
+                                height: 40,
+                              ),
+                              new Image(
+                                  image: new AssetImage("assets/icons/enfrio.png"),
+                                  height: 100,
+                                  width: 100,
+                                  alignment: Alignment.center),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              new Center(
+                                child: new Text('LAVADO EN FRIO',style: TextStyle( color: Colors.blue)),
+                              )
+                            ]),
+                            onTap: () {
+                              enviarDireccionLavadoEnFrio(widget.idusuario);
+                            },
+                          ),
+                      ),
+                        ), 
+                        SizedBox(
+                                height: 20,
+                              ),
+                  Expanded(
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: .85,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      children: <Widget>[
+                        Card(
+                          elevation: 2.0,
+                          color: fondoblanco,
+                          child: new InkWell(
+                            highlightColor: Colors.white.withAlpha(30),
+                            splashColor: Colors.white.withAlpha(20),
+                            child: new Column(children: <Widget>[
+                              SizedBox(
+                                height: 40,
+                              ),
+                              new Image(
+                                  image: new AssetImage("assets/icons/seco.png"),
+                                  height: 100,
+                                  width: 100,
+                                  alignment: Alignment.center),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              new Center(
+                                child: new Text('LAVADO EN SECO',style: TextStyle( color: Colors.orange)),
+                              )
+                            ]),
+                            onTap: () {
+                              enviarDireccionLavadoEnSeco(widget.idusuario);
+                            },
+                          ),
+                        ),  
+                        Card(
+                          elevation: 2.0,
+                          color: fondoblanco,
+                          child: new InkWell(
+                            highlightColor: Colors.white.withAlpha(30),
+                            splashColor: Colors.white.withAlpha(20),
+                            child: new Column(children: <Widget>[
+                              SizedBox(
+                                height: 40,
+                              ),
+                              new Image(
+                                  image: new AssetImage("assets/icons/tintura.png"),
+                                  height: 100,
+                                  width: 100,
+                                  alignment: Alignment.center),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              new Center(
+                                child: new Text('TINTURADO',style: TextStyle( color: Colors.black)),
+                              )
+                            ]),
+                            onTap: () {
+                              enviarDireccionTinturado(widget.idusuario);
+                            },
+                          ),
+                        ), 
+
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
           ],
         ));
   }
-
-
-  Card lavadoEnFrio() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      margin: EdgeInsets.only(left: 30,right: 30, top: 20),
-      elevation: 10,
-      child: new InkWell(
-      child: Column(
-        children: <Widget>[
-           Container(
-              width: MediaQuery.of(context).size.width,
-              height: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                image: DecorationImage(
-                  image: NetworkImage("assets/icons/enfrio.png"),
-                ),
-              ),
-              padding: EdgeInsets.all(10),
-            ),
-          Text('SERVICIO DE LAVADO EN FRIO',style: TextStyle(color: Colors.blue ,fontWeight: FontWeight.w400))
-        ],
-      ),
-      onTap: () {
-          enviarDireccionLavadoEnFrio(widget.idusuario);
-        },
-    ),
-    );
-  }
-  Card lavadoEnSeco() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      margin: EdgeInsets.only(left: 30,right: 30, top: 20),
-      elevation: 10,
-      child: new InkWell(
-      child: Column(
-        children: <Widget>[
-           Container(
-              width: MediaQuery.of(context).size.width,
-              height: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                image: DecorationImage(
-                  image: NetworkImage("assets/icons/seco.png"),
-                ),
-              ),
-              padding: EdgeInsets.all(10),
-            ),
-          Text('SERVICIO DE LAVADO EN SECO',style: TextStyle(color: Colors.orange,fontWeight: FontWeight.w400))
-        ],
-      ),
-      onTap: () {
-          enviarDireccionLavadoEnSeco(widget.idusuario);
-        },
-    ),
-    );
-  }
-
-   Card tinturado() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      margin: EdgeInsets.only(left: 30,right: 30, top: 20),
-      elevation: 10,
-      child: new InkWell(
-      child: Column(
-        children: <Widget>[
-           Container(
-              width: MediaQuery.of(context).size.width,
-              height: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: NetworkImage("assets/icons/tintura.png"),
-                ),
-              ),
-              padding: EdgeInsets.all(10),
-            ),
-          Text('SERVICIO DE TINTURADO',style: TextStyle(color: Colors.black ,fontWeight: FontWeight.w400))
-        ],
-      ),
-      onTap: () {
-          enviarDireccionTinturado(widget.idusuario);
-        },
-    ),
-    );
-  }
-
 
   void enviarDireccionLavadoEnFrio(idusuario) async {
     var url = Uri.parse(
@@ -160,3 +189,4 @@ class _MenuServiciosState extends State<MenuServicios> {
                 Tinturado(idusuario, datos[0]['direccion'])));
   }
 }
+
