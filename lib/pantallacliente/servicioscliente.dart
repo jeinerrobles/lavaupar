@@ -14,6 +14,7 @@ class ServiciosCliente extends StatefulWidget {
 }
 
 class _ServiciosClienteState extends State<ServiciosCliente> {
+  var colorestado = Colors.orange;
   var idusuario;
   @override
   void initState() {
@@ -30,7 +31,28 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
         actions: [],
       ),
 
-      body: FutureBuilder(
+      body: Column( 
+        children: [
+          SizedBox(
+                height: 5,
+              ),
+          Container(
+            color: Colors.greenAccent,
+            padding: const EdgeInsets.all(5),
+            child: ListTile(
+              title: Text(
+                'Mantén presionado para cancelar un servicio pendiente',
+                style: TextStyle(
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w400
+                    ),
+              ),
+              leading: Icon(Icons.info_outline,  color: Colors.white),
+            ),
+          ),
+        
+       Expanded(
+            child:FutureBuilder(
         future: listarServiciosClientePost(http.Client(),
             idusuario), //En esta línea colocamos el el objeto Future que estará esperando una respuesta
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -47,11 +69,37 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
                       itemCount:
                           snapshot.data.length == 0 ? 0 : snapshot.data.length,
                       itemBuilder: (context, posicion) {
+                        if(snapshot.data[posicion].estado == 'En lavanderia'){
+                                colorestado = Colors.green;
+                              }else{
+                                if(snapshot.data[posicion].estado == 'Finalizado'){
+                                colorestado = Colors.blue;
+                                }else{
+                                  if(snapshot.data[posicion].estado == 'Pendiente'){
+                                    colorestado = Colors.orange;
+                                  }else{
+                                    if(snapshot.data[posicion].estado == 'En camino'){
+                                      colorestado = Colors.deepPurple;
+                                    }else{
+                                      if(snapshot.data[posicion].estado == 'En entrega'){
+                                        colorestado = Colors.blueGrey;
+                                      }else{
+                                        if(snapshot.data[posicion].estado == 'Rechazado'){
+                                          colorestado = Colors.red;
+                                        }
+                                      }
+                                    }
+                                  }
+                                } 
+                              }
                         return Card(
                           child: ListTile(
                             onLongPress: () {
-                              confirmaeliminar(
+                              if(snapshot.data[posicion].estado == 'Pendiente'){
+                                confirmaeliminar(
                                   context, snapshot.data[posicion].idservicio);
+                              }
+                              
                             },
                             leading: CircleAvatar(
                               backgroundImage:
@@ -60,20 +108,22 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
                             title: Text(snapshot.data[posicion].nombre),
                             subtitle: Text(
                               snapshot.data[posicion].direccion,
-                              style: TextStyle(color: Colors.orange),
+                              style: TextStyle(
+                                  color: Colors.grey[600],
+                                ),
                             ),
                             trailing: Container(
                               width: 150,
                               height: 150,
                               decoration: BoxDecoration(
-                                color: Colors.green,
+                                color: colorestado,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               padding: EdgeInsets.all(10),
                               alignment: Alignment.center,
                               child: Text(
                                 snapshot.data[posicion].fecha +
-                                    ' - ' +
+                                    ' -  ' +
                                     snapshot.data[posicion].estado,
                                 style: TextStyle(
                                   color: Colors.white,
@@ -89,6 +139,8 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
               return Text('Presiona el boton para recargar');
           }
         },
+      ),),
+            ],
       ),
       backgroundColor: fondoazuloscuro,
       floatingActionButton: FloatingActionButton(
@@ -113,11 +165,37 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
                                 ? 0
                                 : snapshot.data.length,
                             itemBuilder: (context, posicion) {
+                              if(snapshot.data[posicion].estado == 'En lavanderia'){
+                                colorestado = Colors.green;
+                              }else{
+                                if(snapshot.data[posicion].estado == 'Finalizado'){
+                                colorestado = Colors.blue;
+                                }else{
+                                  if(snapshot.data[posicion].estado == 'Pendiente'){
+                                    colorestado = Colors.orange;
+                                  }else{
+                                    if(snapshot.data[posicion].estado == 'En camino'){
+                                      colorestado = Colors.deepPurple;
+                                    }else{
+                                      if(snapshot.data[posicion].estado == 'En entrega'){
+                                        colorestado = Colors.blueGrey;
+                                      }else{
+                                        if(snapshot.data[posicion].estado == 'Rechazado'){
+                                          colorestado = Colors.red;
+                                        }
+                                      }
+                                    }
+                                  }
+                                } 
+                              }
                               return Card(
                                 child: ListTile(
                                   onLongPress: () {
-                                    confirmaeliminar(context,
-                                        snapshot.data[posicion].idservicio);
+                                    if(snapshot.data[posicion].estado == 'Pendiente'){
+                                confirmaeliminar(
+                                  context, snapshot.data[posicion].idservicio);
+                              }
+                                    
                                   },
                                   leading: CircleAvatar(
                                     backgroundImage:
@@ -126,20 +204,24 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
                                   title: Text(snapshot.data[posicion].nombre),
                                   subtitle: Text(
                                     snapshot.data[posicion].direccion,
-                                    style: TextStyle(color: Colors.orange),
+                                    style: TextStyle(
+                                  color: Colors.grey[600],
+                                ),
                                   ),
-                                  trailing: Container(
+                                  trailing: 
+                                  Container(
                                     width: 150,
                                     height: 150,
+                                    
                                     decoration: BoxDecoration(
-                                      color: Colors.green,
+                                      color: colorestado,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     padding: EdgeInsets.all(10),
                                     alignment: Alignment.center,
                                     child: Text(
                                       snapshot.data[posicion].fecha +
-                                          ' - ' +
+                                          ' -  ' +
                                           snapshot.data[posicion].estado,
                                       style: TextStyle(
                                         color: Colors.white,
@@ -169,7 +251,7 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Text('¿Desea eliminar la solicitud?'),
+          content: Text('¿Desea cancelar la solicitud?'),
           actions: <Widget>[
             TextButton(
               child: Text(

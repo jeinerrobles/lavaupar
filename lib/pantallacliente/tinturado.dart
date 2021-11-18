@@ -60,10 +60,7 @@ class _TinturadoState extends State<Tinturado> {
                     ),
                     
                     SizedBox(height: 30),
-                    Text(
-                      "Servicio de tinturado y limpieza impecable.",
-                      style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
-                    ),
+                    
                     SizedBox(height: 130),
                     Column(children: [
                       SizedBox(

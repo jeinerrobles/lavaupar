@@ -60,10 +60,7 @@ class _LavadoEnSecoState extends State<LavadoEnSeco> {
                     ),
                      
                     SizedBox(height: 30),
-                    Text(
-                      "Servicio de lavado en seco + planchado al vapor.",
-                      style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
-                    ),
+                    
                     SizedBox(height: 130),
                     Column(children: [
                       SizedBox(

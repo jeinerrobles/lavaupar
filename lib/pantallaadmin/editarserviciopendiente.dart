@@ -23,8 +23,8 @@ class _EditarServicioPendienteState extends State<EditarServicioPendiente> {
    TextEditingController fecha;
    TextEditingController cliente;
 
-  String estado = 'Pendiente';
-  var _estados = ["Pendiente", "En proceso", "Finalizado"];
+  String estado = 'En camino';
+  var _estados = ["En camino", "En lavanderia", "Rechazado"];
 
   @override
   void initState() {

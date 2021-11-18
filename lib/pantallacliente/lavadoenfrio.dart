@@ -60,10 +60,7 @@ class _LavadoEnFrioState extends State<LavadoEnFrio> {
                     ),
                     
                     SizedBox(height: 30),
-                    Text(
-                      "Servicio de lavado en frio por libras, secado + doblado  para ropa interior, medias, camisetas, sabanas, fundas y toallas.",
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
+                    
                     SizedBox(height: 130),
                     Column(children: [
                       SizedBox(

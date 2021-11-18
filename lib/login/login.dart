@@ -281,15 +281,15 @@ class _LoginState extends State<Login> {
             }else{
             if (datos[0]['tipousuario'] == 'Cliente') {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => MyAppp(datos[0]['idusuario'])));
+                  builder: (context) => MyAppp(datos[0]['idusuario'],datos[0]['nombre'])));
               print('Bienvenido/a' +
-                  ' ' +
+                  ' ' + 
                   datos[0]['nombre'] +
                   ' - ' +
                   datos[0]['email']);
             } else {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => PrincipalAdmin(datos[0]['idusuario'])));
+                  builder: (context) => PrincipalAdmin(datos[0]['idusuario'],datos[0]['nombre'])));
               print('Bienvenido/a Admin' +
                   ' ' +
                   datos[0]['nombre'] +
@@ -326,7 +326,7 @@ class _LoginState extends State<Login> {
             }else{
             if (datos[0]['tipousuario'] == 'Cliente') {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => MyAppp(datos[0]['idusuario'])));
+                  builder: (context) => MyAppp(datos[0]['idusuario'],datos[0]['nombre'])));
               print('Bienvenido/a' +
                   ' ' +
                   datos[0]['nombre'] +
@@ -334,7 +334,7 @@ class _LoginState extends State<Login> {
                   datos[0]['email']);
             } else {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => PrincipalAdmin(datos[0]['idusuario'])));
+                  builder: (context) => PrincipalAdmin(datos[0]['idusuario'],datos[0]['nombre'])));
               print('Bienvenido/a Admin' +
                   ' ' +
                   datos[0]['nombre'] +
@@ -370,7 +370,7 @@ class _LoginState extends State<Login> {
             }else{
             if (datos[0]['tipousuario'] == 'Cliente') {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => MyAppp(datos[0]['idusuario'])));
+                  builder: (context) => MyAppp(datos[0]['idusuario'],datos[0]['nombre'])));
               print('Bienvenido/a' +
                   ' ' +
                   datos[0]['nombre'] +
@@ -378,7 +378,7 @@ class _LoginState extends State<Login> {
                   datos[0]['email']);
             } else {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => PrincipalAdmin(datos[0]['idusuario'])));
+                  builder: (context) => PrincipalAdmin(datos[0]['idusuario'],datos[0]['nombre'])));
               print('Bienvenido/a Admin' +
                   ' ' +
                   datos[0]['nombre'] +

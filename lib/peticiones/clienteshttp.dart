@@ -3,15 +3,22 @@ import 'dart:convert';
 import 'package:lavaupar/modelos/servicios.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:lavaupar/modelos/usuarios.dart';
 
 
-Future<List<Servicio>> listarPost(http.Client client) async {
+Future<List<Usuario>> listarUsuariosPost(http.Client client) async {
   final response = await http.get(Uri.parse(
-      'https://pmproyecto.000webhostapp.com/proyectolavauparapi/listar.php')
+      'https://pmproyecto.000webhostapp.com/proyectolavauparapi/listarusuarios.php')
       );
 
   // Usa la función compute para ejecutar parsePhotos en un isolate separado
-  return compute(pasaraListas, response.body);
+  return compute(pasaraListasUsuarios, response.body);
+}
+
+List<Usuario> pasaraListasUsuarios(String responseBody) {
+  final pasar = json.decode(responseBody).cast<Map<String, dynamic>>();
+
+  return pasar.map<Usuario>((json) => Usuario.fromJson(json)).toList();
 }
 Future<List<Servicio>> listarServiciosClientePost(http.Client client, idusuario) async {
   final response = await http.post(Uri.parse(
@@ -116,22 +123,4 @@ void eliminarServicio(idservicio) async {
     'ideliminar': idservicio,
   });
 }
-/*
-void ingresar (idusuario,contrasena) async{
-    var url = Uri.parse('https://pmproyecto.000webhostapp.com/proyectolavauparapi/consultarlogueo.php');
-    var response = await http.post(url,
-    body:{
-      'idusuario': idusuario,
-      'contrasena': contrasena
-    } 
-    ).timeout(const Duration(seconds: 90));
-    
-    var datos = jsonDecode(response.body);
 
-    if(datos != 0){
-      print('Bienvenido/a'+' '+datos[0]['nombre']+' '+datos[0]['apellido']);
-    }else{
-      print('usuario y/o contraseña incorrecto(s)');
-    }
-}
-*/

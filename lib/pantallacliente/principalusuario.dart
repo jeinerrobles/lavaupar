@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lavaupar/pantallacliente/menu.dart';
 import 'package:lavaupar/pantallacliente/menuservicios.dart';
 import 'package:lavaupar/pantallacliente/misdatos.dart';
+import 'package:lavaupar/pantallacliente/precioscliente.dart';
 import 'package:lavaupar/pantallacliente/servicioscliente.dart';
 import 'package:lavaupar/widgets/constants.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +14,8 @@ import '../main.dart';
 
 class MyAppp extends StatelessWidget {
   final String idusuario;
-  MyAppp(this.idusuario);
+  final String nombre;
+  MyAppp(this.idusuario, this.nombre);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,15 +26,15 @@ class MyAppp extends StatelessWidget {
         scaffoldBackgroundColor: fondoblanco,
         textTheme: Theme.of(context).textTheme.apply(displayColor: fondoblanco),
       ),
-      home: HomeScreen(this.idusuario),
+      home: HomeScreen(this.idusuario, this.nombre),
     );
   }
 }
 
 class HomeScreen extends StatefulWidget {
   final String idusuario;
- 
-  HomeScreen(this.idusuario);
+  final String nombre;
+  HomeScreen(this.idusuario, this.nombre);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -75,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Text(
-                    "¡Bienvenido(a) a LavaUpar!",
+                    "¡Bienvenido(a),"+' '+this.widget.nombre+'!',
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -92,11 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSpacing: 20,
                       children: <Widget>[
                         CardP("assets/icons/agendar1.png", 'Agendar servicio', fondoblanco,
-                            MenuServicios(this.widget.idusuario)),
+                            MenuServicios2(this.widget.idusuario)),
                         CardP("assets/icons/misservicios.png", 'Mis solicitudes', fondoblanco,
                             ServiciosCliente(this.widget.idusuario)),
                         CardP("assets/icons/precios.png", 'Precios',
-                            fondoblanco, ServiciosCliente(this.widget.idusuario)),
+                            fondoblanco, PrecioCliente()),
 
                         Card(
                           elevation: 2.0,

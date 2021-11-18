@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lavaupar/pantallaadmin/consultarusuarios.dart';
+import 'package:lavaupar/pantallaadmin/precios.dart';
 import 'package:lavaupar/pantallaadmin/serviciosenproceso.dart';
 import 'package:lavaupar/pantallaadmin/serviciospendientes.dart';
 import 'package:lavaupar/widgets/constants.dart';
@@ -11,9 +13,9 @@ import '../main.dart';
 class PrincipalAdmin extends StatelessWidget {
 
   final String idusuario;
+  final String nombre;
 
-
-  PrincipalAdmin(this.idusuario);
+  PrincipalAdmin(this.idusuario, this.nombre);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +26,7 @@ class PrincipalAdmin extends StatelessWidget {
         scaffoldBackgroundColor: fondoblanco,
         textTheme: Theme.of(context).textTheme.apply(displayColor: fondoblanco),
       ),
-      home: HomeScreen( this.idusuario),
+      home: HomeScreen( this.idusuario, this.nombre),
     );
   }
 }
@@ -32,9 +34,9 @@ class PrincipalAdmin extends StatelessWidget {
 class HomeScreen extends StatelessWidget {
 
   final String idusuario;
+  final String nombre;
 
-
-  HomeScreen(this.idusuario);
+  HomeScreen(this.idusuario, this.nombre);
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context)
@@ -72,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "¡Bienvenido(a) a LavaUpar!",
+                    "¡Bienvenido(a),"+' '+this.nombre+'!',
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -88,14 +90,14 @@ class HomeScreen extends StatelessWidget {
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
                       children: <Widget>[
-                        CardP("assets/icons/programar.png", 'Servicios pendientes',
+                        CardP("assets/icons/programar.png", 'Servicios solicitados',
                             fondoblanco, ServiciosPendientes()),
                         CardP("assets/icons/lavadora.png", 'En lavanderia', 
                             fondoblanco, ServiciosEnProceso()),
                         CardP("assets/icons/precios.png", 'Modificar precios',
-                            fondoblanco, ServiciosEnProceso()),
+                            fondoblanco, Precio()),
                         CardP("assets/icons/usuarios.png",'Consultar usuarios',
-                            fondoblanco, ServiciosEnProceso()),
+                            fondoblanco, ConsultarUsuarios()),
                       ],
                     ),
                   ),

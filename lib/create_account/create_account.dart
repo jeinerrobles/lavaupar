@@ -94,7 +94,7 @@ class _CreateAccountState extends State<CreateAccount> {
     } else {
       adicionarUsuario(idusuario, tipousuario, nombre, email, direccion, telefono, contrasena);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => MyAppp(idusuario)));
+                  builder: (context) => MyAppp(idusuario, nombre)));
     }
   }
 }

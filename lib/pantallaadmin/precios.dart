@@ -1,104 +1,104 @@
-import 'package:flutter/material.dart';
 
-class Precios extends StatelessWidget {
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:lavaupar/peticiones/adminhttp.dart';
+import 'package:lavaupar/widgets/constants.dart';
+
+class Precio extends StatefulWidget {
+
+  @override
+  _PrecioState createState() => _PrecioState();
+}
+
+class _PrecioState extends State<Precio> {
+  var colorestado = Colors.orange;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
-        appBar: AppBar(
-          title: Text('Cards app'),
+        backgroundColor: fondoazuloscuro,
+       appBar: AppBar(
+        title: Text('Modificar precios'),
+        backgroundColor: fondoazuloscuro,
+        actions: [
+          IconButton(
+              tooltip: 'Agregar precio',
+              icon: Icon(Icons.add),
+              onPressed: () {
+                /*Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            AgregarMensajero())).then((value) {
+                  setState(() {
+                    getInfo(context);
+                  });
+                }); */
+              })
+        ],
+      ),
+        body:  FutureBuilder(
+    future: listarPreciosPost(http.Client()), //En esta línea colocamos el el objeto Future que estará esperando una respuesta
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      switch (snapshot.connectionState) {
+
+        //En este case estamos a la espera de la respuesta, mientras tanto mostraremos el loader
+        case ConnectionState.waiting:
+          return Center(child: CircularProgressIndicator());
+
+        case ConnectionState.done:
+          if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+          return snapshot.data != null
+      ? ListView.builder(
+        itemCount: snapshot.data.length == 0 ? 0 : snapshot.data.length,
+        itemBuilder: (context, posicion) {
+          if(snapshot.data[posicion].tipo == 'LAVADO EN FRIO'){
+                                colorestado = Colors.blue;
+                              }else{
+                                if(snapshot.data[posicion].tipo == 'LAVADO EN SECO'){
+                                colorestado = Colors.orange;
+                                }else{
+                                  if(snapshot.data[posicion].tipo == 'TINTURADO'){
+                                    colorestado = Colors.deepPurple;
+                                  }
+                                }
+                              }
+          return Card(
+          child: ListTile(
+           /* onTap: () {
+          Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => EditarServicioPendiente(snapshot.data[posicion].idservicio,
+              snapshot.data[posicion].nombre, snapshot.data[posicion].direccion, 
+              snapshot.data[posicion].fecha, snapshot.data[posicion].cliente, snapshot.data[posicion].estado))).then((value) {
+          setState(() {
+            Refrescar();
+          });
+        });
+                 
+        },*/
+    leading: CircleAvatar(
+          backgroundImage: AssetImage("assets/icons/peso.png"),
+        ), 
+    title: Text(snapshot.data[posicion].nombre),
+    subtitle: Text(snapshot.data[posicion].tipo, style: TextStyle(color: colorestado)),
+    trailing: Text(snapshot.data[posicion].precio,
+        style: TextStyle(
+          color: Colors.black,
         ),
-        body: ListView(
-          children: <Widget>[
-            miCard(),
-            miCardImage(),
-            miCardDesign(),
-            miCardImageCarga(),
-          ],
-        ));
-  }
-
-  Card miCard() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.all(15),
-      elevation: 10,
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            contentPadding: EdgeInsets.fromLTRB(15, 10, 25, 0),
-            title: Text('Titulo'),
-            subtitle: Text(
-                'Este es el subtitulo del card. Aqui podemos colocar descripción de este card.'),
-            leading: Icon(Icons.home),
-          ),
-          
-        ],
       ),
-    );
-  }
+    
+          ),
+      );
+        })
+      : Text('Sin Datos');
 
-  Card miCardImage() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.all(15),
-      elevation: 10,
-      child: Column(
-        children: <Widget>[
-          Image(
-            image: NetworkImage(
-                'https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg'),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: Text('Montañas'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Card miCardImageCarga() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.all(15),
-      elevation: 10,
-      child: Column(
-        children: <Widget>[
-          FadeInImage(
-            image: NetworkImage(
-                'https://staticuestudio.blob.core.windows.net/buhomag/2016/03/01195417/pexels-com.jpg'),
-            placeholder: AssetImage('assets/loading.gif'),
-            fit: BoxFit.cover,
-            height: 260,
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            child: Text('Paisaje con carga'),
-          )
-        ],
-      ),
-    );
-  }
-
-  Card miCardDesign() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.all(15),
-      elevation: 10,
-      color: Color(0xFFE6EE9C),
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            contentPadding: EdgeInsets.fromLTRB(15, 10, 25, 0),
-            title: Text('Titulo'),
-            subtitle: Text(
-                'Este es el subtitulo del card. Aqui podemos colocar descripción de este card.'),
-            leading: Icon(Icons.home),
-          ),
-          
-        ],
-      ),
-    );
+        default:
+          return Text('Presiona el boton para recargar');
+      }
+    },
+  )
+          );
   }
 }
+

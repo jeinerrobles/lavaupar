@@ -23,8 +23,8 @@ class _EditarServicioEnProcesoState extends State<EditarServicioEnProceso> {
    TextEditingController fecha;
    TextEditingController cliente;
 
-  String estado = 'Finalizado';
-  var _estados = ["Finalizado"];
+  String estado = 'En entrega';
+  var _estados = ["En entrega", "Finalizado"];
 
   @override
   void initState() {

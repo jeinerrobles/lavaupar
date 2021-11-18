@@ -11,6 +11,7 @@ class ServiciosEnProceso extends StatefulWidget {
 }
 
 class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
+  var colorestado = Colors.green;
   @override
   void initState() {
     super.initState();
@@ -20,12 +21,42 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Listado Servicios En Proceso'),
+        title: Text('Listado Servicios En Lavanderia'),
         backgroundColor: fondoazuloscuro,
         actions: [],
       ),
 
-      body: FutureBuilder(
+      body: Column(
+        children: [
+          SizedBox(
+                height: 5,
+              ),
+          Container(
+            color: Colors.deepOrange,
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    Text('En lavanderia',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text('En entrega',
+                        style: TextStyle(
+                            color: Colors.blueGrey, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+      
+      Expanded(
+            child: FutureBuilder(
     future: listarEnProcesoPost(http.Client()), //En esta línea colocamos el el objeto Future que estará esperando una respuesta
     builder: (BuildContext context, AsyncSnapshot snapshot) {
       switch (snapshot.connectionState) {
@@ -40,6 +71,13 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
               ? ListView.builder(
         itemCount: snapshot.data.length == 0 ? 0 : snapshot.data.length,
         itemBuilder: (context, posicion) {
+          if(snapshot.data[posicion].estado == 'En lavanderia'){
+                                colorestado = Colors.green;
+                              }else{
+                                if(snapshot.data[posicion].estado == 'En entrega'){
+                                colorestado = Colors.blueGrey;
+                                }
+                              }
           return Card(
           child: ListTile(
             onTap: () {
@@ -59,15 +97,14 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
                   backgroundImage: AssetImage("assets/icons/icono.png"),
                 ), 
             title: Text(snapshot.data[posicion].nombre),
-            subtitle: Text(snapshot.data[posicion].direccion,
-                style: TextStyle(
-                  color: Colors.green
-                ),),
+            subtitle: Text(snapshot.data[posicion].direccion,style: TextStyle(
+                                  color: Colors.grey[600],
+                                ),),
             trailing: Container(
               width: 150,
               height: 150,
               decoration: BoxDecoration(
-              color: Colors.blue,
+              color: colorestado,
               borderRadius: BorderRadius.circular(20),
               ),
               padding: EdgeInsets.all(10),
@@ -88,7 +125,9 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
           return Text('Presiona el boton para recargar');
       }
     },
-  ),
+  ),)
+        ],
+      ),
       backgroundColor: fondoazuloscuro,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -104,12 +143,11 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
 }
 
 class Refrescar extends StatelessWidget {
-  const Refrescar({
-    Key key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var colorestado = Colors.green;
+                              
     return FutureBuilder(
     future: listarEnProcesoPost(http.Client()), //En esta línea colocamos el el objeto Future que estará esperando una respuesta
     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -125,33 +163,41 @@ class Refrescar extends StatelessWidget {
       ? ListView.builder(
         itemCount: snapshot.data.length == 0 ? 0 : snapshot.data.length,
         itemBuilder: (context, posicion) {
-          return ListTile(
-    
-    leading: CircleAvatar(
-          backgroundImage: AssetImage("assets/icons/icono.png"),
-        ),
-    title: Text(snapshot.data[posicion].nombre),
-    subtitle: Text(snapshot.data[posicion].direccion,
-        style: TextStyle(
-          color: Colors.green,
-        ),),
-    trailing: Container(
-      width: 150,
-      height: 150,
-      decoration: BoxDecoration(
-      color: Colors.blue,
-      borderRadius: BorderRadius.circular(20),
-      ),
-      padding: EdgeInsets.all(10),
-      alignment: Alignment.center,
-      child: Text(
-        snapshot.data[posicion].cliente + ' - ' + snapshot.data[posicion].fecha,
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
-    ),
-          );
+          if(snapshot.data[posicion].estado == 'En lavanderia'){
+                                colorestado = Colors.green;
+                              }else{
+                                if(snapshot.data[posicion].estado == 'En entrega'){
+                                colorestado = Colors.blueGrey;
+                                }
+                              }
+          return Card(
+          child: ListTile(
+            
+            leading: CircleAvatar(
+                  backgroundImage: AssetImage("assets/icons/icono.png"),
+                ), 
+            title: Text(snapshot.data[posicion].nombre),
+            subtitle: Text(snapshot.data[posicion].direccion,style: TextStyle(
+                                  color: Colors.grey[600],
+                                ),),
+            trailing: Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+              color: colorestado,
+              borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.all(10),
+              alignment: Alignment.center,
+              child: Text(
+                snapshot.data[posicion].cliente + ' - ' + snapshot.data[posicion].fecha,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+              );
         })
       : Text('Sin Datos');
 
