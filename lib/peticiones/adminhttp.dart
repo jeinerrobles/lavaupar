@@ -71,7 +71,7 @@ void adicionarPrecio(
     String precio,
     String tipo) async {
   var url = Uri.parse(
-      "https://pmproyecto.000webhostapp.com/proyectolavauparapi/adicionar.php");
+      "https://pmproyecto.000webhostapp.com/proyectolavauparapi/adicionarprecio.php");
 
   await http.post(url, body: {
     'nombre': nombre,
@@ -86,7 +86,7 @@ void editarPrecio(
     String precio,
     String tipo) async {
   var url = Uri.parse(
-      "https://pmproyecto.000webhostapp.com/proyectolavauparapi/modificar.php");
+      "https://pmproyecto.000webhostapp.com/proyectolavauparapi/modificarprecio.php");
 
   await http.post(url, body: {
     'idprecio': idprecio,
@@ -98,7 +98,7 @@ void editarPrecio(
 
 void eliminarPrecio(idprecio) async {
   var url = Uri.parse(
-      "https://pmproyecto.000webhostapp.com/proyectolavauparapi/eliminar.php");
+      "https://pmproyecto.000webhostapp.com/proyectolavauparapi/eliminarprecio.php");
 
   await http.post(url, body: {
     'idprecio': idprecio,

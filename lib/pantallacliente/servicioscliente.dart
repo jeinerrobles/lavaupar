@@ -15,6 +15,7 @@ class ServiciosCliente extends StatefulWidget {
 
 class _ServiciosClienteState extends State<ServiciosCliente> {
   var colorestado = Colors.orange;
+  var foto;
   var idusuario;
   @override
   void initState() {
@@ -92,6 +93,17 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
                                   }
                                 } 
                               }
+                              if(snapshot.data[posicion].nombre == 'LAVADO EN FRIO'){
+                                foto = "assets/icons/enfrio.png";
+                              }else{
+                                if(snapshot.data[posicion].nombre == 'LAVADO EN SECO'){
+                                  foto = "assets/icons/enseco.png";
+                                }else{
+                                  if(snapshot.data[posicion].nombre == 'TINTURADO'){
+                                    foto = "assets/icons/tintura.png";
+                                  }
+                                }
+                              }
                         return Card(
                           child: ListTile(
                             onLongPress: () {
@@ -103,7 +115,7 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
                             },
                             leading: CircleAvatar(
                               backgroundImage:
-                                  AssetImage("assets/icons/icono.png"),
+                                  AssetImage(foto),
                             ),
                             title: Text(snapshot.data[posicion].nombre),
                             subtitle: Text(
@@ -188,6 +200,17 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
                                   }
                                 } 
                               }
+                              if(snapshot.data[posicion].nombre == 'LAVADO EN FRIO'){
+                                foto = "assets/icons/enfrio.png";
+                              }else{
+                                if(snapshot.data[posicion].nombre == 'LAVADO EN SECO'){
+                                  foto = "assets/icons/enseco.png";
+                                }else{
+                                  if(snapshot.data[posicion].nombre == 'TINTURADO'){
+                                    foto = "assets/icons/tintura.png";
+                                  }
+                                }
+                              }
                               return Card(
                                 child: ListTile(
                                   onLongPress: () {
@@ -199,7 +222,7 @@ class _ServiciosClienteState extends State<ServiciosCliente> {
                                   },
                                   leading: CircleAvatar(
                                     backgroundImage:
-                                        AssetImage("assets/icons/icono.png"),
+                                        AssetImage(foto),
                                   ),
                                   title: Text(snapshot.data[posicion].nombre),
                                   subtitle: Text(

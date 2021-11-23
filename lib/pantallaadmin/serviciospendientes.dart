@@ -12,6 +12,7 @@ class ServiciosPendientes extends StatefulWidget {
 
 class _ServiciosPendientesState extends State<ServiciosPendientes> {
   var colorestado = Colors.orange;
+  var foto;
   @override
   void initState() {
     super.initState();
@@ -72,11 +73,27 @@ class _ServiciosPendientesState extends State<ServiciosPendientes> {
               ? ListView.builder(
         itemCount: snapshot.data.length == 0 ? 0 : snapshot.data.length,
         itemBuilder: (context, posicion) {
-          if(snapshot.data[posicion].estado == 'Pendiente'){
+          if (snapshot.data[posicion].estado ==
+                                  'Pendiente') {
                                 colorestado = Colors.orange;
-                              }else{
-                                if(snapshot.data[posicion].estado == 'En camino'){
-                                colorestado = Colors.deepPurple;
+                              } else {
+                                if (snapshot.data[posicion].estado ==
+                                    'En camino') {
+                                  colorestado = Colors.deepPurple;
+                                }
+                              }
+                              if (snapshot.data[posicion].nombre ==
+                                  'LAVADO EN FRIO') {
+                                foto = "assets/icons/enfrio.png";
+                              } else {
+                                if (snapshot.data[posicion].nombre ==
+                                    'LAVADO EN SECO') {
+                                  foto = "assets/icons/enseco.png";
+                                } else {
+                                  if (snapshot.data[posicion].nombre ==
+                                      'TINTURADO') {
+                                    foto = "assets/icons/tintura.png";
+                                  }
                                 }
                               }
           return Card(
@@ -95,7 +112,7 @@ class _ServiciosPendientesState extends State<ServiciosPendientes> {
                          
                 },
             leading: CircleAvatar(
-                  backgroundImage: AssetImage("assets/icons/icono.png"),
+                  backgroundImage: AssetImage(foto),
                 ), 
             title: Text(snapshot.data[posicion].nombre),
             subtitle: Text(snapshot.data[posicion].direccion,style: TextStyle(
@@ -149,6 +166,7 @@ class Refrescar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var colorestado = Colors.orange;
+    var foto;
     return FutureBuilder(
     future: listarPendientesPost(http.Client()), //En esta línea colocamos el el objeto Future que estará esperando una respuesta
     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -171,11 +189,22 @@ class Refrescar extends StatelessWidget {
                                 colorestado = Colors.deepPurple;
                                 }
                               }
+                              if(snapshot.data[posicion].nombre == 'LAVADO EN FRIO'){
+                                foto = "assets/icons/enfrio.png";
+                              }else{
+                                if(snapshot.data[posicion].nombre == 'LAVADO EN SECO'){
+                                  foto = "assets/icons/enseco.png";
+                                }else{
+                                  if(snapshot.data[posicion].nombre == 'TINTURADO'){
+                                    foto = "assets/icons/tintura.png";
+                                  }
+                                }
+                              }
           return Card(
           child: ListTile(
 
             leading: CircleAvatar(
-                  backgroundImage: AssetImage("assets/icons/icono.png"),
+                  backgroundImage: AssetImage(foto),
                 ), 
             title: Text(snapshot.data[posicion].nombre),
             subtitle: Text(snapshot.data[posicion].direccion,style: TextStyle(

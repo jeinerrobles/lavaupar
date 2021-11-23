@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:lavaupar/modelos/usuarios.dart';
 import 'package:lavaupar/pantallaadmin/datosusuario.dart';
-import 'package:lavaupar/peticiones/adminhttp.dart';
-import 'package:lavaupar/peticiones/clienteshttp.dart';
 import 'package:lavaupar/widgets/constants.dart';
 
 class ConsultarUsuarios extends StatefulWidget {
@@ -15,6 +14,49 @@ class ConsultarUsuarios extends StatefulWidget {
 
 class _ConsultarUsuariosState extends State<ConsultarUsuarios> {
   var colorestado = Colors.orange;
+   TextEditingController controller = new TextEditingController();
+
+  Future<Null> getUserDetails() async {
+    final response = await http.get(Uri.parse(
+      'https://pmproyecto.000webhostapp.com/proyectolavauparapi/listarusuarios.php')
+      );
+    final responseJson = json.decode(response.body);
+
+    setState(() {
+      for (Map user in responseJson) {
+        _userDetails.add(Usuario.fromJson(user));
+      }
+    });
+  }
+
+
+  List<Usuario> _searchResult = [];
+  List<Usuario> _userDetails = [];
+
+   onSearchTextChanged(String text) async {
+    _searchResult.clear();
+    if (text.isEmpty) {
+      setState(() {});
+      return;
+    }
+
+    _userDetails.forEach((userDetail) {
+      if (userDetail.nombre.toUpperCase().contains(text.toUpperCase()) || 
+      userDetail.idusuario.toUpperCase().contains(text.toUpperCase()))
+        _searchResult.add(userDetail);
+    });
+
+    setState(() {});
+  }
+
+@override
+  void initState() {
+    super.initState();
+
+    getUserDetails();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,46 +65,70 @@ class _ConsultarUsuariosState extends State<ConsultarUsuarios> {
         title: Text('Clientes'),
         backgroundColor: fondoazuloscuro,
       ),
-        body:  FutureBuilder(
-    future: listarUsuariosPost(http.Client()), //En esta línea colocamos el el objeto Future que estará esperando una respuesta
-    builder: (BuildContext context, AsyncSnapshot snapshot) {
-      switch (snapshot.connectionState) {
-
-        //En este case estamos a la espera de la respuesta, mientras tanto mostraremos el loader
-        case ConnectionState.waiting:
-          return Center(child: CircularProgressIndicator());
-
-        case ConnectionState.done:
-          if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-          return snapshot.data != null
-      ? ListView.builder(
-        itemCount: snapshot.data.length == 0 ? 0 : snapshot.data.length,
-        itemBuilder: (context, posicion) {
-          return Card(
-          child: ListTile(
-            onTap: () {
-              consultarusuario(snapshot.data[posicion].idusuario);
-        },
-    leading: CircleAvatar(
-          backgroundImage: AssetImage("assets/icons/perfil.png"),
-        ), 
-    title: Text(snapshot.data[posicion].nombre),
-    trailing: Text('TI/C.C: '+snapshot.data[posicion].idusuario,
-        style: TextStyle(
-          color: Colors.black,
-        ),
-      ),
-    
+        body:  Column(
+        children: [
+          SizedBox(
+                height: 5,
+              ),
+              Container(
+            child: new Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: new Card(
+                child: new ListTile(
+                  leading: new Icon(Icons.search),
+                  title: new TextField(
+                    controller: controller,
+                    decoration: new InputDecoration(
+                        hintText: 'Buscar', border: InputBorder.none),
+                    onChanged: onSearchTextChanged,
+                  ),
+                  trailing: new IconButton(icon: new Icon(Icons.cancel), onPressed: () {
+                    controller.clear();
+                    onSearchTextChanged('');
+                  },),
+                ),
+              ),
+            ),
           ),
-      );
-        })
-      : Text('Sin Datos');
-
-        default:
-          return Text('Presiona el boton para recargar');
-      }
-    },
-  ),
+        SizedBox(
+                height: 5,
+              ),
+        Expanded(
+            child: _searchResult.length != 0 || controller.text.isNotEmpty
+                ? new ListView.builder(
+              itemCount: _searchResult.length,
+              itemBuilder: (context, i) {
+                return new Card(
+                  child: new ListTile(
+                    onTap: () {
+                      consultarusuario(_searchResult[i].idusuario);
+                    },
+                    leading: CircleAvatar(backgroundImage: AssetImage("assets/icons/perfil.png")),
+                    title: Text(_searchResult[i].nombre),
+                    trailing:Text( _searchResult[i].idusuario),
+                  ),
+                  margin: const EdgeInsets.all(0.0),
+                );
+              },
+            )
+                : new ListView.builder(
+              itemCount: _userDetails.length,
+              itemBuilder: (context, index) {
+                return new Card(
+                  child: new ListTile(
+                    onTap: () {
+                      consultarusuario(_userDetails[index].idusuario);
+                    },
+                    leading: CircleAvatar(backgroundImage: AssetImage("assets/icons/perfil.png")),
+                    title:  Text(_userDetails[index].nombre),
+                    trailing:Text(_userDetails[index].idusuario),
+                  ),
+                  margin: const EdgeInsets.all(0.0),
+                );
+              },
+            ),)
+        ],
+        )
           );
   }
   void consultarusuario(idusuario) async {
@@ -86,4 +152,5 @@ class _ConsultarUsuariosState extends State<ConsultarUsuarios> {
                  
   }
 }
+
 

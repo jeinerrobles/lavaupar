@@ -66,15 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 52,
-                      width: 52,
-                      decoration: BoxDecoration(
-                        color: fondoazuloscuro,
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset("assets/icons/menu.svg"),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => MyApp()));
+                        print('Sesión cerrada');
+                      },
+                      tooltip: 'Salir',
+                      icon: const Icon(Icons.logout),
+                      color: Colors.black,
                     ),
                   ),
                   Text(
@@ -137,21 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      persistentFooterButtons: [
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          FloatingActionButton(
-              heroTag: null,
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => MyApp()));
-                    print('Sesión cerrada');
-              },
-              backgroundColor: Colors.red,
-              tooltip: 'Salir',
-              child: Icon(Icons.logout)),
-         
-        ]),
-      ],
     );
   }
 

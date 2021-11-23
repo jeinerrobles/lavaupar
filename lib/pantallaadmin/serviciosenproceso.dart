@@ -12,6 +12,7 @@ class ServiciosEnProceso extends StatefulWidget {
 
 class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
   var colorestado = Colors.green;
+  var foto;
   @override
   void initState() {
     super.initState();
@@ -32,7 +33,7 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
                 height: 5,
               ),
           Container(
-            color: Colors.deepOrange,
+            color: Colors.greenAccent,
             padding: const EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -78,6 +79,17 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
                                 colorestado = Colors.blueGrey;
                                 }
                               }
+                              if(snapshot.data[posicion].nombre == 'LAVADO EN FRIO'){
+                                foto = "assets/icons/enfrio.png";
+                              }else{
+                                if(snapshot.data[posicion].nombre == 'LAVADO EN SECO'){
+                                  foto = "assets/icons/enseco.png";
+                                }else{
+                                  if(snapshot.data[posicion].nombre == 'TINTURADO'){
+                                    foto = "assets/icons/tintura.png";
+                                  }
+                                }
+                              }
           return Card(
           child: ListTile(
             onTap: () {
@@ -94,7 +106,7 @@ class _ServiciosEnProcesoState extends State<ServiciosEnProceso> {
                          
                 },
             leading: CircleAvatar(
-                  backgroundImage: AssetImage("assets/icons/icono.png"),
+                  backgroundImage: AssetImage(foto),
                 ), 
             title: Text(snapshot.data[posicion].nombre),
             subtitle: Text(snapshot.data[posicion].direccion,style: TextStyle(
@@ -147,7 +159,7 @@ class Refrescar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var colorestado = Colors.green;
-                              
+    var foto;                          
     return FutureBuilder(
     future: listarEnProcesoPost(http.Client()), //En esta línea colocamos el el objeto Future que estará esperando una respuesta
     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -170,11 +182,22 @@ class Refrescar extends StatelessWidget {
                                 colorestado = Colors.blueGrey;
                                 }
                               }
+                              if(snapshot.data[posicion].nombre == 'LAVADO EN FRIO'){
+                                foto = "assets/icons/enfrio.png";
+                              }else{
+                                if(snapshot.data[posicion].nombre == 'LAVADO EN SECO'){
+                                  foto = "assets/icons/enseco.png";
+                                }else{
+                                  if(snapshot.data[posicion].nombre == 'TINTURADO'){
+                                    foto = "assets/icons/tintura.png";
+                                  }
+                                }
+                              }
           return Card(
           child: ListTile(
             
             leading: CircleAvatar(
-                  backgroundImage: AssetImage("assets/icons/icono.png"),
+                  backgroundImage: AssetImage(foto),
                 ), 
             title: Text(snapshot.data[posicion].nombre),
             subtitle: Text(snapshot.data[posicion].direccion,style: TextStyle(
